@@ -1,55 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"/>
-<title>Insert title here</title>
-  <script
-          src="https://code.jquery.com/jquery-3.3.1.min.js"
-          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-          crossorigin="anonymous"></script>
+//IIFE
+(function () {
 
-  <script src="user-admin.controller.client.js"></script>
+    jQuery(main);
 
-</head>
-<body>
-<div class="container">
-  <h1 id="title">User Admin</h1>
-  <h1 class="red">Red</h1>
-  <h1 class="red">Also Red</h1>
-  <h1 class="green">Green</h1>
-  <h1 class="green">Also green</h1>
-  <h1 class="blue">Blue</h1>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Password</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th></th>
-      </tr>
-      <tr>
-        <th><input class="form-control" placeholder="jdoe"/></th>
-        <th><input class="form-control" type="password"/></th>
-        <th><input class="form-control" placeholder="John"/></th>
-        <th><input class="form-control" placeholder="Doe"/></th>
-        <th><button class="btn btn-success">Create</button></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="template">
-        <td class="username">alice</td>
-        <td>****</td>
-        <td>Alice</td>
-        <td>Wonderland</td>
-        <th><button class="btn btn-danger">Delete</button></th>
-      </tr>
-    </tbody>
-    <tfoot></tfoot>
-  </table>
+    var tbody;
+    var template;
 
-  <h1>THis is another h1</h1>
-  </div>
-</body>
-</html>
+    function main() {
+        tbody = $('tbody');
+        template = $('.template');
+        $('#createUser').click(createUser);
+
+        var promise = fetch('http://localhost:8080/api/user');
+        promise.then(function (response) {
+            return response.json();
+        }).then(renderUsers)
+    }
+
+    function createUser() {
+        console.log('createUser');
+
+        var username = $('#usernameFld').val();
+        var password = $('#passwordFld').val();
+        var firstName = $('#firstNameFld').val();
+        var lastName = $('#lastNameFld').val();
+
+        var user = {
+            username: username,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        };
+
+        fetch('http://localhost:8080/api/user', {
+            method: 'post',
+            body: JSON.stringify(user),
+            headers: {
+                'content-type': 'application/json'
+            }
+        });
+    }
+
+    function renderUsers(users) {
+        for(var i=0; i<users.length; i++) {
+            var user = users[i];
+            var clone = template.clone();
+            clone.find('.username')
+                .html(user.username);
+            tbody.append(clone);
+        }
+    }
+
+})();
