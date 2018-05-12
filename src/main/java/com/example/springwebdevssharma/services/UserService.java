@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserService {
@@ -31,5 +32,14 @@ public class UserService {
   @DeleteMapping("/api/user/{userId}")
   public void deleteUser(@PathVariable("userId") int id) {
     repository.deleteById(id);
+  }
+
+  @GetMapping("/api/user/{userId}")
+  public User findUserById(@PathVariable("userId") int userId) {
+    Optional<User> data = repository.findById(userId);
+    if(data.isPresent()) {
+      return data.get();
+    }
+    return null;
   }
 }
