@@ -17,9 +17,13 @@
 
     }
 
+    function findAllUsers() {
+        userService
+            .findAllUsers()
+            .then(renderUsers);
+    }
+
     function createUser() {
-
-
         var username = $('#usernameFld').val();
         var password = $('#passwordFld').val();
         var firstName = $('#firstNameFld').val();
@@ -37,12 +41,6 @@
         userService
             .createUser(user)
             .then(findAllUsers);
-    }
-
-    function findAllUsers() {
-        userService
-            .findAllUsers()
-            .then(renderUsers);
     }
 
     function renderUsers(users) {
