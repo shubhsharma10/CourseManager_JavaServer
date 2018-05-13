@@ -6,12 +6,16 @@
     var tbody;
     var template;
     var userService;
+    var currentUserID;
 
     function main() {
         tbody = $('tbody');
         template = $('.template');
         userService = new UserServiceClient();
-        $('#createUser').click(createUser);
+        currentUserID = 0;
+        $('.createUser').click(createUser);
+        $('.updateUser').click(updateUser);
+        $('#searchUser').click(searchUser);
 
         findAllUsers();
 
@@ -22,14 +26,21 @@
             .findAllUsers()
             .then(renderUsers);
     }
+    
+    function emptyUserForm() {
+        $('#usernameFld').reset();
+        $('#passwordFld').reset();
+        $('#firstNameFld').reset();
+        $('#lastNameFld').reset();
+        currentUserID = 0;
+        
+    }
 
     function createUser() {
         var username = $('#usernameFld').val();
         var password = $('#passwordFld').val();
         var firstName = $('#firstNameFld').val();
         var lastName = $('#lastNameFld').val();
-
-        console.log(username);
 
         var user = {
             username: username,
@@ -43,6 +54,47 @@
             .then(findAllUsers);
     }
 
+    function updateUser() {
+        var username = $('#usernameFld').val();
+        var password = $('#passwordFld').val();
+        var firstName = $('#firstNameFld').val();
+        var lastName = $('#lastNameFld').val();
+        var user = {
+            username: username,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        };
+        userService
+            .updateUser(currentUserID,user)
+            .then(findAllUsers)
+            .then(emptyUserForm);
+
+    }
+    
+    function searchUser() {
+        
+    }
+
+    function populateUser(user) {
+        $('#usernameFld').val(user.username);
+        $('#passwordFld').val(user.password);
+        $('#firstNameFld').val(user.firstName);
+        $('#lastNameFld').val(user.lastName);
+    }
+
+    function editUser(event) {
+        var editButton = $(event.currentTarget);
+        var userId = editButton
+            .parent()
+            .parent()
+            .attr('id');
+        currentUserID = userId;
+        userService
+            .findUserById(userId)
+            .then(populateUser);
+    }
+
     function deleteUser(event) {
         var deleteBtn = $(event.currentTarget);
         var userId = deleteBtn
@@ -52,19 +104,6 @@
         userService
             .deleteUser(userId)
             .then(findAllUsers);
-    }
-
-    function editUser(event) {
-        var editButton = $(event.currentTarget);
-        var userId = editButton
-            .parent()
-            .parent()
-            .attr('id');
-        userService
-            .findUserById(userId)
-            .then(function(value) {
-                console.log(value);
-            });
     }
 
     function renderUsers(users) {
