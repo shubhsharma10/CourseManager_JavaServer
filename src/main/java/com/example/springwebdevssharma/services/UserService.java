@@ -49,8 +49,8 @@ public class UserService {
       user.setLastName(newUser.getLastName());
       user.setUsername(newUser.getUsername());
       user.setPassword(newUser.getPassword());
+      user.setRole(newUser.getRole());
       repository.save(user);
-      System.out.println(user);
       return user;
     }
     return null;
