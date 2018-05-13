@@ -26,7 +26,10 @@
             .findAllUsers()
             .then(renderUsers);
     }
-    
+
+    /**
+     * Reset form to placeholder values
+     */
     function emptyUserForm() {
         $('#usernameFld').val('');
         $('#passwordFld').val('');
@@ -44,13 +47,7 @@
         var lastName = $('#lastNameFld').val();
         var role = $('#roleFld').val();
 
-        var user = {
-            username: username,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            role: role
-        };
+        var user = new User(username,password,firstName,lastName,role,null,null,null);
 
         userService
             .createUser(user)
@@ -64,13 +61,7 @@
         var firstName = $('#firstNameFld').val();
         var lastName = $('#lastNameFld').val();
         var role = $('#roleFld').val();
-        var user = {
-            username: username,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            role: role
-        };
+        var user = new User(username,password,firstName,lastName,role,null,null,null);
         userService
             .updateUser(currentUserID,user)
             .then(findAllUsers)
