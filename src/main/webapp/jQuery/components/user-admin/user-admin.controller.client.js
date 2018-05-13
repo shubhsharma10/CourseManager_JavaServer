@@ -55,8 +55,16 @@
     }
 
     function editUser(event) {
-        console.log('editUser');
-        console.log(event);
+        var editButton = $(event.currentTarget);
+        var userId = editButton
+            .parent()
+            .parent()
+            .attr('id');
+        userService
+            .findUserById(userId)
+            .then(function(value) {
+                console.log(value);
+            });
     }
 
     function renderUsers(users) {
@@ -69,6 +77,12 @@
             clone.find('.edit').click(editUser);
             clone.find('.username')
                 .html(user.username);
+            clone.find('.password')
+                .html(user.password);
+            clone.find('.firstName')
+                .html(user.firstName);
+            clone.find('.lastName')
+                .html(user.lastName);
             tbody.append(clone);
         }
     }
