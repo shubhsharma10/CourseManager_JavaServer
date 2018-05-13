@@ -28,10 +28,10 @@
     }
     
     function emptyUserForm() {
-        $('#usernameFld').reset();
-        $('#passwordFld').reset();
-        $('#firstNameFld').reset();
-        $('#lastNameFld').reset();
+        $('#usernameFld').val('');
+        $('#passwordFld').val('');
+        $('#firstNameFld').val('');
+        $('#lastNameFld').val('');
         currentUserID = 0;
         
     }
