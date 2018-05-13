@@ -5,8 +5,10 @@ function UserServiceClient() {
     this.deleteUser = deleteUser;
     this.updateUser = updateUser;
     this.login = login;
+    this.register = register;
     this.URL = '/api/user';
     this.LOGIN_URL = '/api/login';
+    this.REGISTER_URL = '/api/register';
     var self = this;
 
     function findAllUsers()
@@ -43,6 +45,16 @@ function UserServiceClient() {
 
     function login(username, password) {
         return fetch(self.LOGIN_URL, {
+            method: 'post',
+            body: JSON.stringify({username:username, password: password}),
+            headers: {
+                'content-type': 'application/json'
+            }
+        });
+    }
+
+    function register(username, password) {
+        return fetch(self.REGISTER_URL, {
             method: 'post',
             body: JSON.stringify({username:username, password: password}),
             headers: {

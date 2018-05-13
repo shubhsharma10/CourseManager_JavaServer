@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class UserService {
   @Autowired
@@ -67,5 +69,24 @@ public class UserService {
       return user;
     }
     return null;
+  }
+
+  @GetMapping("/api/user/{username}")
+  public List<User> findUserByUsername(@PathVariable("username") String username) {
+    List<User> data = (List<User>)repository.findUserByUsername(username);
+    return data;
+  }
+
+  @PostMapping("/api/register")
+  public User register(@RequestBody User user, HttpSession session) {
+    List<User> existingUsers = findUserByUsername(user.getUsername());
+    if(existingUsers.size() == 0)
+    {
+      createUser(user);
+      session.setAttribute("user",user);
+      return user;
+    }
+    return null;
+
   }
 }

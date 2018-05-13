@@ -73,7 +73,7 @@
 //
 //    }
 
-    function populateUser(user) {
+    function renderUser(user) {
         $('#usernameFld').val(user.username);
         $('#passwordFld').val(user.password);
         $('#firstNameFld').val(user.firstName);
@@ -92,7 +92,7 @@
         currentUserID = userId;
         userService
             .findUserById(userId)
-            .then(populateUser);
+            .then(renderUser);
     }
 
     function deleteUser(event) {

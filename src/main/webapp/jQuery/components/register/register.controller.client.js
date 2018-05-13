@@ -12,8 +12,17 @@
         userService = new UserServiceClient();
     }
 
+    function emptyForm() {
+        $usernameFld.val('');
+        $passwordFld.val('');
+        $verifyPasswordFld.val('');
+    }
+
+
     function registerUser() {
-        console.log("register user");
+        userService
+            .register($usernameFld.val(),$passwordFld.val())
+            .then(emptyForm());
     }
 })();
 
