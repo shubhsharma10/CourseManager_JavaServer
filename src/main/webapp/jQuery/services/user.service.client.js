@@ -5,8 +5,8 @@ function UserServiceClient() {
     this.deleteUser = deleteUser;
     this.updateUser = updateUser;
     this.login = login;
-    this.URL = 'http://localhost:8080/api/user';
-    this.LOGIN_URL = 'http://localhost:8080/api/login';
+    this.URL = '/api/user';
+    this.LOGIN_URL = '/api/login';
     var self = this;
 
     function findAllUsers()
