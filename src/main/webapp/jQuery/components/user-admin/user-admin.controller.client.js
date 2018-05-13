@@ -15,7 +15,7 @@
         currentUserID = 0;
         $('.wbdv-create').click(createUser);
         $('.wbdv-update').click(updateUser);
-        $('.wbdv-search').click(searchUser);
+//        $('.wbdv-search').click(searchUser);
 
         findAllUsers();
 
@@ -78,9 +78,9 @@
 
     }
     
-    function searchUser() {
-        
-    }
+//    function searchUser() {
+//
+//    }
 
     function populateUser(user) {
         $('#usernameFld').val(user.username);
