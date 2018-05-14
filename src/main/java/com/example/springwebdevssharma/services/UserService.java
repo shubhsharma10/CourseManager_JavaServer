@@ -33,8 +33,16 @@ public class UserService {
   }
 
   @PostMapping("/api/login")
-  public List<User> login(@RequestBody User user) {
-    return (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());
+  public User login(@RequestBody User user) {
+    List<User> users = (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());
+    if(users.size() == 1)
+    {
+      return users.get(0);
+    }
+    else
+    {
+      return null;
+    }
   }
 
   @DeleteMapping("/api/user/{userId}")

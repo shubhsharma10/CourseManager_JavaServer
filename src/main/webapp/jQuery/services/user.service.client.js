@@ -50,7 +50,14 @@ function UserServiceClient() {
             headers: {
                 'content-type': 'application/json'
             }
-        });
+        })
+            .then(function(response){
+                return response.json();
+            })
+            .catch(function (error) {
+                console.log("Login promise error ::"+error);
+                return null;
+            });
     }
 
     function register(username, password) {
@@ -65,7 +72,7 @@ function UserServiceClient() {
                 return response.json();
             })
             .catch(function (error) {
-                console.log("register Promise error "+error);
+                console.log("Register promise error ::"+error);
                 return null;
             });
     }
@@ -82,7 +89,7 @@ function UserServiceClient() {
                 return response.json();
             })
             .catch(function (error) {
-                console.log("updateUser Promise error "+error);
+                console.log("Update user promise error :: "+error);
                 return null;
             });
     }
