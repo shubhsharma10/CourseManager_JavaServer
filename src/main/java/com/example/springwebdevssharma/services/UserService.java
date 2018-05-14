@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -81,12 +79,6 @@ public class UserService {
     return null;
   }
 
-  @RequestMapping(value = "/api/user", params="username, method = RequestMethod.GET")
-  public List<User> findUserByUsername(@RequestParam("username") String username) {
-    List<User> data = (List<User>)repository.findUserByUsername(username);
-    return data;
-  }
-
   @PostMapping("/api/register")
   public User register(@RequestBody User user, HttpSession session) {
     List<User> existingUsers = findUserByUsername(user.getUsername());
@@ -98,5 +90,9 @@ public class UserService {
     }
     return null;
 
+  }
+
+  private List<User> findUserByUsername(String username) {
+    return (List<User>)repository.findUserByUsername(username);
   }
 }
