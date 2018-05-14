@@ -1,6 +1,7 @@
 (function () {
     var $usernameFld, $passwordFld, $verifyPasswordFld;
     var $registerBtn, $passwordAlertID, $userSuccessID, $userFailureID, userService;
+
     $(main);
 
     function main() {

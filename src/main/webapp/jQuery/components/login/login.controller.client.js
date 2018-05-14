@@ -1,6 +1,7 @@
 (function () {
     var $usernameFld, $passwordFld;
     var $loginBtn, $loginFailureID, userService;
+
     $(main);
 
     function main() {
@@ -25,7 +26,6 @@
         else
         {
             $loginFailureID.hide();
-            console.log(response);
             loadProfilePage(response);
         }
     }

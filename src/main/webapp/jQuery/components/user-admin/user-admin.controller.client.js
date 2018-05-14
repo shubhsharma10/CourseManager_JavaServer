@@ -1,12 +1,9 @@
 //IIFE
 (function () {
-
-    jQuery(main);
-
-    var tbody;
-    var template;
+    var tbody, template, currentUserID;
     var userService;
-    var currentUserID;
+
+    $(main);
 
     function main() {
         tbody = $('tbody');
@@ -15,7 +12,6 @@
         currentUserID = 0;
         $('.wbdv-create').click(createUser);
         $('.wbdv-update').click(updateUser);
-//        $('.wbdv-search').click(searchUser);
 
         findAllUsers();
 
@@ -68,10 +64,6 @@
             .then(emptyUserForm);
 
     }
-    
-//    function searchUser() {
-//
-//    }
 
     function renderUser(user) {
         $('#usernameFld').val(user.username);

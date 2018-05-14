@@ -1,5 +1,4 @@
 (function() {
-    $(init);
 
     var $staticUsername, $firstName, $lastName;
     var $phoneNumber, $email, $role, $dob;
@@ -7,8 +6,9 @@
     var $updateBtn, $logoutBtn, $updateSuccessID, $updateFailureID;
     var userService;
 
+    $(init);
+
     function init() {
-        console.log("init called: ");
         $staticUsername = $("#staticUsernameFId");
         $firstName = $("#firstNameFId");
         $lastName = $("#lastNameFId");
@@ -42,15 +42,12 @@
     }
 
     function logoutUser() {
-        //userService.logout();
         password = "";
         userID = 0;
         window.location = '/jQuery/components/login/login.template.client.html'
     }
 
     function success(response) {
-        console.log(response);
-        console.log(response.data);
         if(response === null) {
             $updateSuccessID.hide();
             $updateFailureID.show();
@@ -61,7 +58,6 @@
     }
 
     function renderUser(user) {
-        console.log(user);
         password = user.password;
         $staticUsername.val(user.username);
         $firstName.val(user.firstName);
