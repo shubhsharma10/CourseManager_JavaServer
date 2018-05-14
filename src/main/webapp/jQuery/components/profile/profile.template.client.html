@@ -19,44 +19,65 @@
     <h1 id="title">Profile</h1>
 
     <form>
+        <div id="wbdv-update-success" class="alert alert-success">
+            <strong>Profile updated successfully!</strong>
+        </div>
+        <div id="wbdv-update-failure" class="alert alert-danger">
+            <strong>Profile updated failed!</strong>
+        </div>
         <div class="form-group row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+            <label for="staticUsernameFId" class="col-sm-2 col-form-label">Username:</label>
             <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                <input class="form-control-plaintext" id="staticUsernameFId" placeholder="username" onfocus="this.blur()" readonly="readonly">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+            <label for="firstNameFId" class="col-sm-2 col-form-label">First Name:</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input type="text" class="form-control" id="firstNameFId" placeholder="first name">
             </div>
         </div>
         <div class="form-group row">
-            <label for="firstName" class="col-sm-2 col-form-label">
-                First Name
-            </label>
+            <label for="lastNameFId" class="col-sm-2 col-form-label">Last Name:</label>
             <div class="col-sm-10">
-                <input type="text"
-                       class="form-control"
-                       id="firstName"
-                       placeholder="first name">
+                <input type="text" class="form-control" id="lastNameFId" placeholder="last name">
             </div>
         </div>
         <div class="form-group row">
-            <label for="lastName"
-                   class="col-sm-2 col-form-label">
-                Last Name
-            </label>
+            <label for="phoneNumberFId" class="col-sm-2 col-form-label">Phone number:</label>
             <div class="col-sm-10">
-                <input type="text"
-                       class="form-control"
-                       id="lastName"
-                       placeholder="last">
+                <input type="number" class="form-control" id="phoneNumberFId" placeholder="(555) 123-1234">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="emailFId" class="col-sm-2 col-form-label">Email:</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="emailFId" placeholder="abc@xyz.com">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="roleFId" class="col-sm-2 col-form-label">Role:</label>
+            <div class="col-sm-10">
+                <select id="roleFId" class="form-control">
+                    <option value="" selected disabled>Please select</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="FACULTY">Faculty</option>
+                    <option value="STUDENT">Student</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="dateOfBirthFId" class="col-sm-2 col-form-label">Date Of Birth:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="dateOfBirthFId">
             </div>
         </div>
         <button id="updateBtn"
                 type="button"
-                class="btn btn-primary btn-block">Update</button>
+                class="btn btn-success btn-block">Update</button>
+        <button id="logoutBtn"
+                type="button"
+                class="btn btn-danger btn-block">Logout</button>
     </form>
 
 </div>

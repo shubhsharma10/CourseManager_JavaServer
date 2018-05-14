@@ -6,9 +6,13 @@ function UserServiceClient() {
     this.updateUser = updateUser;
     this.login = login;
     this.register = register;
+    this.setLoggedUserID = setLoggedUserID;
+    this.getLoggedUserID = getLoggedUserID;
+    this.resetLoggedUserID = resetLoggedUserID;
     this.URL = '/api/user';
     this.LOGIN_URL = '/api/login';
     this.REGISTER_URL = '/api/register';
+    this.loggedUserID = 0;
     var self = this;
 
     function findAllUsers()
@@ -17,6 +21,18 @@ function UserServiceClient() {
                 .then(function (response) {
                 return response.json();
                 });
+    }
+
+    function setLoggedUserID(userID) {
+        self.loggedUserID = userID;
+    }
+
+    function getLoggedUserID() {
+        return self.loggedUserID;
+    }
+
+    function resetLoggedUserID() {
+        self.loggedUserID = 0;
     }
 
     function createUser(user)

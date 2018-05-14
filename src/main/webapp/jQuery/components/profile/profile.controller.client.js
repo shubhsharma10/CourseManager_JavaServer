@@ -1,20 +1,29 @@
 (function() {
     $(init);
 
-    var $staticEmail;
-    var $firstName;
-    var $lastName;
-    var $updateBtn;
+    var $staticUsername, $firstName, $lastName;
+    var $phoneNumber, $email, $role, $dob;
+    var userID,password;
+    var $updateBtn, $logoutBtn, $updateSuccessID, $updateFailureID;
     var userService;
 
     function init() {
-        $staticEmail = $("#staticEmail");
-        $firstName = $("#firstName");
-        $lastName = $("#lastName");
+        $staticUsername = $("#staticUsernameFId");
+        $firstName = $("#firstNameFId");
+        $lastName = $("#lastNameFId");
+        $phoneNumber = $("#phoneNumberFId");
+        $email = $("#emailFId");
+        $role = $("#roleFId");
+        $dob = $("#dateOfBirthFId");
         $updateBtn = $("#updateBtn")
             .click(updateUser);
+        $logoutBtn = $("#logoutBtn")
+            .click(logoutUser);
+        $updateSuccessID = $('#wbdv-update-success');
+        $updateFailureID = $("#wbdv-update-failure");
         userService = new UserServiceClient();
-        findUserById(22);
+        userID = userService.getLoggedUserID();
+        findUserById(userID);
     }
 
     function findUserById(userId) {
@@ -24,30 +33,42 @@
     }
 
     function updateUser() {
-        var user = {
-            firstName: $firstName.val(),
-            lastName: $lastName.val()
-        };
+        var user = new User($staticUsername.val(),password,$firstName.val(),$lastName.val(),
+                            $role.val(),$phoneNumber.val(),$email.val(),$dob.val());
 
         userService
-            .updateUser(22, user)
+            .updateUser(userID, user)
             .then(success);
+    }
+
+    function logoutUser() {
+        userService.logout();
+        userService.resetLoggedUserID();
+        userID = 0;
+        password = "";
     }
 
     function success(response) {
         console.log(response);
         console.log(response.data);
         if(response === null) {
-            alert('unable to update')
+            $updateSuccessID.hide();
+            $updateFailureID.show();
         } else {
-            alert('success');
+            $updateSuccessID.show();
+            $updateFailureID.hide();
         }
     }
 
     function renderUser(user) {
         console.log(user);
-        $staticEmail.val(user.username);
+        password = user.password;
+        $staticUsername.val(user.username);
         $firstName.val(user.firstName);
         $lastName.val(user.lastName);
+        $phoneNumber.val(user.phone);
+        $email.val(user.email);
+        $role.val(user.role);
+        $dob.val(user.dateOfBirth);
     }
 })();
