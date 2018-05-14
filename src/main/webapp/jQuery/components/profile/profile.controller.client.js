@@ -8,6 +8,7 @@
     var userService;
 
     function init() {
+        console.log("init called: ");
         $staticUsername = $("#staticUsernameFId");
         $firstName = $("#firstNameFId");
         $lastName = $("#lastNameFId");
@@ -22,8 +23,8 @@
         $updateSuccessID = $('#wbdv-update-success');
         $updateFailureID = $("#wbdv-update-failure");
         userService = new UserServiceClient();
-        userID = userService.getLoggedUserID();
-        findUserById(userID);
+        userID = parseInt(userService.getURLParameters(window.location,"uid"));
+        findUserById(parseInt(userID));
     }
 
     function findUserById(userId) {
@@ -35,7 +36,6 @@
     function updateUser() {
         var user = new User($staticUsername.val(),password,$firstName.val(),$lastName.val(),
                             $role.val(),$phoneNumber.val(),$email.val(),$dob.val());
-
         userService
             .updateUser(userID, user)
             .then(success);
@@ -43,8 +43,6 @@
 
     function logoutUser() {
         userService.logout();
-        userService.resetLoggedUserID();
-        userID = 0;
         password = "";
     }
 
@@ -69,6 +67,7 @@
         $phoneNumber.val(user.phone);
         $email.val(user.email);
         $role.val(user.role);
-        $dob.val(user.dateOfBirth);
+        var dateOfBirth = user.dateOfBirth.split('T')[0];
+        $dob.val(dateOfBirth);
     }
 })();

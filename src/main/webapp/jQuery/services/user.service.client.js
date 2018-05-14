@@ -6,12 +6,15 @@ function UserServiceClient() {
     this.updateUser = updateUser;
     this.login = login;
     this.register = register;
+    this.getProfile = getProfile;
     this.setLoggedUserID = setLoggedUserID;
     this.getLoggedUserID = getLoggedUserID;
     this.resetLoggedUserID = resetLoggedUserID;
+    this.getURLParameters = getURLParameters;
     this.URL = '/api/user';
     this.LOGIN_URL = '/api/login';
     this.REGISTER_URL = '/api/register';
+    this.PROFILE_URL = '/jQuery/components/profile/profile.template.client.html';
     this.loggedUserID = 0;
     var self = this;
 
@@ -107,6 +110,31 @@ function UserServiceClient() {
             .catch(function (error) {
                 console.log("Update user promise error :: "+error);
                 return null;
+            });
+    }
+
+    /*
+    * Credits: http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
+    * */
+    function getURLParameters(currentLocation,sParam) {
+        var sPageURL = decodeURIComponent(currentLocation.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    }
+
+    function getProfile(user) {
+        return fetch(self.PROFILE_URL)
+            .then(function (response) {
+                return response.url + '?uid=' + user.id;
             });
     }
 

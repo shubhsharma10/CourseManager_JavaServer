@@ -26,7 +26,18 @@
         {
             $loginFailureID.hide();
             console.log(response);
+            loadProfilePage(response);
         }
+    }
+
+    function loadProfilePage(user) {
+        userService
+            .getProfile(user)
+            .then(redirectToProfile);
+    }
+
+    function redirectToProfile(profilePage) {
+        window.location = profilePage
     }
 
     function loginUser() {
