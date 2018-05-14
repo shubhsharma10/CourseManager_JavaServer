@@ -60,7 +60,14 @@ function UserServiceClient() {
             headers: {
                 'content-type': 'application/json'
             }
-        });
+        })
+            .then(function(response){
+                return response.json();
+            })
+            .catch(function (error) {
+                console.log("register Promise error "+error);
+                return null;
+            });
     }
 
     function updateUser(userId, user) {
@@ -72,11 +79,11 @@ function UserServiceClient() {
             }
         })
             .then(function(response){
-                if(response != null) {
-                    return response.json();
-                } else {
-                    return null;
-                }
+                return response.json();
+            })
+            .catch(function (error) {
+                console.log("updateUser Promise error "+error);
+                return null;
             });
     }
 

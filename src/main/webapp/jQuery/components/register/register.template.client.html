@@ -17,6 +17,15 @@
 <div class="container">
     <h1>Sign Up</h1>
     <form>
+        <div id="wbdv-password-alert" class="alert alert-warning" style="display: none">
+            <strong>Password not same!</strong>
+        </div>
+        <div id="wbdv-user-success" class="alert alert-success" style="display: none">
+            <strong>User created!</strong>
+        </div>
+        <div id="wbdv-user-failure" class="alert alert-danger" style="display: none">
+            <strong>Username already exists!</strong>
+        </div>
         <div class="form-group row">
             <label class="control-label col-sm-2" for="usernameFld">Username:</label>
             <div class="col-sm-10">
