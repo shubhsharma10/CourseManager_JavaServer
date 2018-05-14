@@ -42,8 +42,10 @@
     }
 
     function logoutUser() {
-        userService.logout();
+        //userService.logout();
         password = "";
+        userID = 0;
+        window.location = '/jQuery/components/login/login.template.client.html'
     }
 
     function success(response) {
