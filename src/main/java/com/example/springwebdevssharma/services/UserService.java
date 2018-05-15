@@ -19,80 +19,84 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserService {
-  @Autowired
-  UserRepository repository;
+    @Autowired
+    UserRepository repository;
 
-  @PostMapping("/api/user")
-  public User createUser(@RequestBody User user) {
-    return repository.save(user);
-  }
-
-  @GetMapping("/api/user")
-  public List<User> findAllUsers() {
-    return (List<User>) repository.findAll();
-  }
-
-  @PostMapping("/api/login")
-  public User login(@RequestBody User user) {
-    List<User> users = (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());
-    if(users.size() == 1)
-    {
-      return users.get(0);
+    @PostMapping("/api/user")
+    public User createUser(@RequestBody User user) {
+      return repository.save(user);
     }
-    else
-    {
+
+    @GetMapping("/api/user")
+    public List<User> findAllUsers() {
+      return (List<User>) repository.findAll();
+    }
+
+    @PostMapping("/api/login")
+    public User login(@RequestBody User user) {
+      List<User> users = (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());
+      if(users.size() == 1)
+      {
+        return users.get(0);
+      }
+      else
+      {
+        return null;
+      }
+    }
+
+    @DeleteMapping("/api/user/{userId}")
+    public void deleteUser(@PathVariable("userId") int id) {
+      repository.deleteById(id);
+    }
+
+    // This is used instead of "/api/profile" put mapping. Functionality is same.
+    @PutMapping("/api/user/{userId}")
+    public User updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
+      Optional<User> data = repository.findById(userId);
+      if(data.isPresent()) {
+        User user = data.get();
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setUsername(newUser.getUsername());
+        user.setPassword(newUser.getPassword());
+        user.setRole(newUser.getRole());
+        user.setPhone(newUser.getPhone());
+        user.setEmail(newUser.getEmail());
+        user.setDateOfBirth(newUser.getDateOfBirth());
+        repository.save(user);
+        return user;
+      }
       return null;
     }
-  }
 
-  @DeleteMapping("/api/user/{userId}")
-  public void deleteUser(@PathVariable("userId") int id) {
-    repository.deleteById(id);
-  }
-
-  @PutMapping("/api/user/{userId}")
-  public User updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
-    Optional<User> data = repository.findById(userId);
-    if(data.isPresent()) {
-      User user = data.get();
-      user.setFirstName(newUser.getFirstName());
-      user.setLastName(newUser.getLastName());
-      user.setUsername(newUser.getUsername());
-      user.setPassword(newUser.getPassword());
-      user.setRole(newUser.getRole());
-      user.setPhone(newUser.getPhone());
-      user.setEmail(newUser.getEmail());
-      user.setDateOfBirth(newUser.getDateOfBirth());
-      repository.save(user);
-      return user;
+    @GetMapping("/api/user/{userId}")
+    public User findUserById(@PathVariable("userId") int userId) {
+      Optional<User> data = repository.findById(userId);
+      if(data.isPresent()) {
+        User user = data.get();
+        return user;
+      }
+      return null;
     }
-    return null;
-  }
 
-  @GetMapping("/api/user/{userId}")
-  public User findUserById(@PathVariable("userId") int userId) {
-    Optional<User> data = repository.findById(userId);
-    if(data.isPresent()) {
-      User user = data.get();
-      return user;
+    @PostMapping("/api/register")
+    public User register(@RequestBody User user, HttpSession session) {
+      List<User> existingUsers = findUserByUsername(user.getUsername());
+      if(existingUsers.size() == 0)
+      {
+        createUser(user);
+        session.setAttribute("user",user);
+        return user;
+      }
+      return null;
+
     }
-    return null;
-  }
 
-  @PostMapping("/api/register")
-  public User register(@RequestBody User user, HttpSession session) {
-    List<User> existingUsers = findUserByUsername(user.getUsername());
-    if(existingUsers.size() == 0)
-    {
-      createUser(user);
-      session.setAttribute("user",user);
-      return user;
+    private List<User> findUserByUsername(String username) {
+      return (List<User>)repository.findUserByUsername(username);
     }
-    return null;
 
-  }
-
-  private List<User> findUserByUsername(String username) {
-    return (List<User>)repository.findUserByUsername(username);
-  }
+    // I haven't implemented "/api/logout" since without http session implementation, there is no session to invalidate.
+    // Httpsession is not a requirement for this assignment as answered by Professor on piazza.
 }
