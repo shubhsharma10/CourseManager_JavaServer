@@ -5,6 +5,9 @@
 
     $(main);
 
+    /*
+    * Executes on document load,after browser is done parsing the html
+    * */
     function main() {
         tbody = $('tbody');
         template = $('.template');
@@ -17,12 +20,6 @@
 
     }
 
-    function findAllUsers() {
-        userService
-            .findAllUsers()
-            .then(renderUsers);
-    }
-
     /**
      * Reset form to placeholder values
      */
@@ -33,9 +30,11 @@
         $('#lastNameFld').val('');
         $('#roleFld').val('');
         currentUserID = 0;
-        
     }
 
+    /*
+    * Handles create user event when clicked on plus icon
+    * */
     function createUser() {
         var username = $('#usernameFld').val();
         var password = $('#passwordFld').val();
@@ -51,6 +50,18 @@
             .then(emptyUserForm);
     }
 
+    /*
+    * Called whenever user list needs to be refreshed
+    * */
+    function findAllUsers() {
+        userService
+            .findAllUsers()
+            .then(renderUsers);
+    }
+
+    /*
+    * Handles update user event when user clicks on check mark icon.
+    * */
     function updateUser() {
         var username = $('#usernameFld').val();
         var password = $('#passwordFld').val();
@@ -65,6 +76,9 @@
 
     }
 
+    /*
+    * Accepts user object as parameter and updates the form with user properties.
+    * */
     function renderUser(user) {
         $('#usernameFld').val(user.username);
         $('#passwordFld').val(user.password);
@@ -73,6 +87,9 @@
         $('#roleFld').val(user.role);
     }
 
+    /*
+    * Handles edit button on selected user
+    * */
     function editUser(event) {
         var editButton = $(event.currentTarget);
         var userId = editButton
@@ -87,6 +104,9 @@
             .then(renderUser);
     }
 
+    /*
+    * Handles delete button on selected user.
+    * */
     function deleteUser(event) {
         var deleteBtn = $(event.currentTarget);
         var userId = deleteBtn
@@ -100,6 +120,9 @@
             .then(findAllUsers);
     }
 
+    /*
+    * Accepts list of user instances and populates table body with them.
+    * */
     function renderUsers(users) {
         tbody.empty();
         for(var i=0; i<users.length; i++) {

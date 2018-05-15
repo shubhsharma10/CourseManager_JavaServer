@@ -4,6 +4,9 @@
 
     $(main);
 
+    /*
+     * Executes on document load,after browser is done parsing the html
+     * */
     function main() {
         $usernameFld = $('#usernameFld');
         $passwordFld = $('#passwordFld');
@@ -16,13 +19,19 @@
         userService = new UserServiceClient();
     }
 
+    /*
+    * Resets the form values
+    * */
     function emptyForm() {
         $usernameFld.val('');
         $passwordFld.val('');
         $verifyPasswordFld.val('');
     }
 
-    function handleRegisterResponse(response) {
+    /*
+    * Display or hide appropriate alert message based on response from register promise
+    * */
+    function toggleAlertMessages(response) {
         if(response === null)
         {
             $userFailureID.show();
@@ -35,7 +44,10 @@
         }
     }
 
-
+    /*
+    * Handles Sign up button event
+    * Checks for same password and if same then try signup.
+    * */
     function registerUser() {
         var passwordVal = $passwordFld.val();
         var verifyPasswordVal = $verifyPasswordFld.val();
@@ -48,7 +60,7 @@
             $passwordAlertID.hide();
             userService
                 .register($usernameFld.val(),passwordVal)
-                .then(handleRegisterResponse)
+                .then(toggleAlertMessages)
                 .then(emptyForm);
         }
     }

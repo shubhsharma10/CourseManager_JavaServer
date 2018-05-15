@@ -8,6 +8,9 @@
 
     $(init);
 
+    /*
+     * Executes on document load,after browser is done parsing the html
+     * */
     function init() {
         $staticUsername = $("#staticUsernameFId");
         $firstName = $("#firstNameFId");
@@ -27,27 +30,40 @@
         findUserById(parseInt(userID));
     }
 
+    /*
+    * Finds user by user id and populates user profile page
+    * */
     function findUserById(userId) {
         userService
             .findUserById(userId)
             .then(renderUser);
     }
 
+    /*
+    * Handles update button event.
+    * Updates user profile on server and shows appropriate message.
+    * */
     function updateUser() {
         var user = new User($staticUsername.val(),password,$firstName.val(),$lastName.val(),
                             $role.val(),$phoneNumber.val(),$email.val(),$dob.val());
         userService
             .updateUser(userID, user)
-            .then(success);
+            .then(toggleAlertMessage);
     }
 
+    /*
+    * Logs out current user and redirects to login page
+    * */
     function logoutUser() {
         password = "";
         userID = 0;
-        window.location = '/jQuery/components/login/login.template.client.html'
+        window.location = '/jQuery/components/login/login.template.client.html';
     }
 
-    function success(response) {
+    /*
+    * Display/hide appropriate message based on response.
+    * */
+    function toggleAlertMessage(response) {
         if(response === null) {
             $updateSuccessID.hide();
             $updateFailureID.show();
@@ -57,6 +73,9 @@
         }
     }
 
+    /*
+    * Accepts user as a parameter and renders user profile
+    * */
     function renderUser(user) {
         password = user.password;
         $staticUsername.val(user.username);

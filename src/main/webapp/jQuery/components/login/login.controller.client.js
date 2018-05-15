@@ -4,6 +4,9 @@
 
     $(main);
 
+    /*
+     * Executes on document load,after browser is done parsing the html
+     * */
     function main() {
         $usernameFld = $('#usernameFld');
         $passwordFld = $('#passwordFld');
@@ -13,6 +16,9 @@
         userService = new UserServiceClient();
     }
 
+    /*
+    * Resets the form values
+    * */
     function emptyForm() {
         $usernameFld.val('');
         $passwordFld.val('');
