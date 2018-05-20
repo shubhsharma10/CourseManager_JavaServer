@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,7 +81,7 @@ public class LessonService {
           @PathVariable("mid") int moduleId)
   {
     List<Lesson> allLesson = findAllLesson();
-    List<Lesson> lessonForModule = new List<Lesson>();
+    List<Lesson> lessonForModule = new ArrayList<Lesson>();
     for(Lesson lesson : allLesson)
     {
       Module mod = lesson.getModule();
