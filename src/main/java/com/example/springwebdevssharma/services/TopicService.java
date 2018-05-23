@@ -67,7 +67,7 @@ public class TopicService {
   }
 
 
-  @GetMapping("/api/course/{cid}/module/{mid}/lesson/{lid/topic")
+  @GetMapping("/api/course/{cid}/module/{mid}/lesson/{lid}/topic")
   public List<Topic> findAllTopicsForLesson(
           @PathVariable("cid") int courseId,
           @PathVariable("mid") int moduleId,
