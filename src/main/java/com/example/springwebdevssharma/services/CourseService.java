@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,6 +28,15 @@ public class CourseService {
   @GetMapping("/api/course")
   public Iterable<Course> findAllCourses() {
     return courseRepository.findAll();
+  }
+
+  @GetMapping("/api/course/{courseId}")
+  public Course findCourseById(@PathVariable("courseId") int courseId) {
+    Optional<Course> data = courseRepository.findById(courseId);
+    if(data.isPresent()) {
+      return data.get();
+    }
+    return null;
   }
 
   @PostMapping("/api/course")

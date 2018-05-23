@@ -1,21 +1,21 @@
 package com.example.springwebdevssharma.services;
 
 import com.example.springwebdevssharma.models.Course;
-import com.example.springwebdevssharma.models.Module;
 import com.example.springwebdevssharma.models.Lesson;
+import com.example.springwebdevssharma.models.Module;
 import com.example.springwebdevssharma.repositories.CourseRepository;
 import com.example.springwebdevssharma.repositories.LessonRepository;
 import com.example.springwebdevssharma.repositories.ModuleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,24 +50,13 @@ public class LessonService {
     }
     return null;
   }
-//
-//  @GetMapping("/api/course/{courseId}/module")
-//  public List<Module> findAllModulesForCourse(
-//          @PathVariable("courseId") int courseId) {
-//    Optional<Course> data = courseRepository.findById(courseId);
-//    if(data.isPresent()) {
-//      Course course = data.get();
-//      return course.getModules();
-//    }
-//    return null;
-//  }
-//
-//  @DeleteMapping("/api/module/{moduleId}")
-//  public void deleteModule(@PathVariable("moduleId") int moduleId)
-//  {
-//    moduleRepository.deleteById(moduleId);
-//  }
-//
+
+  @DeleteMapping("/api/lesson/{lessonId}")
+  public void deleteLesson(@PathVariable("lessonId") int lessonId)
+  {
+    lessonRepository.deleteById(lessonId);
+  }
+
   @GetMapping("/api/lesson")
   public List<Lesson> findAllLesson()
   {
@@ -80,15 +69,14 @@ public class LessonService {
           @PathVariable("cid") int courseId,
           @PathVariable("mid") int moduleId)
   {
-    List<Lesson> allLesson = findAllLesson();
-    List<Lesson> lessonForModule = new ArrayList<Lesson>();
-    for(Lesson lesson : allLesson)
+    Optional<Course> courseData = courseRepository.findById(courseId);
+    Optional<Module> moduleData = moduleRepository.findById(moduleId);
+    if(moduleData.isPresent() && courseData.isPresent())
     {
-      Module mod = lesson.getModule();
-      Course course = mod.getCourse();
-      if(course.getId() == courseId && mod.getId() == moduleId)
-        lessonForModule.add(lesson);
+      Module module = moduleData.get();
+      return module.getLessons();
+
     }
-    return lessonForModule;
+    return null;
   }
 }
