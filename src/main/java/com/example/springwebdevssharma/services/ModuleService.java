@@ -1,8 +1,10 @@
 package com.example.springwebdevssharma.services;
 
 import com.example.springwebdevssharma.models.Course;
+import com.example.springwebdevssharma.models.Lesson;
 import com.example.springwebdevssharma.models.Module;
 import com.example.springwebdevssharma.repositories.CourseRepository;
+import com.example.springwebdevssharma.repositories.LessonRepository;
 import com.example.springwebdevssharma.repositories.ModuleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ModuleService {
 
   @Autowired
   ModuleRepository moduleRepository;
+
+  @Autowired
+  LessonRepository lessonRepository;
 
   @PostMapping("/api/course/{courseId}/module")
   public Module createModule(
@@ -55,6 +60,13 @@ public class ModuleService {
   @DeleteMapping("/api/module/{moduleId}")
   public void deleteModule(@PathVariable("moduleId") int moduleId)
   {
+    List<Lesson> lessonList = (List<Lesson>)lessonRepository.findAll();
+
+    for(Lesson lesson: lessonList)
+    {
+      if(lesson.getModule().getId() == moduleId)
+        lessonRepository.deleteById(lesson.getId());
+    }
     moduleRepository.deleteById(moduleId);
   }
 
