@@ -63,7 +63,7 @@ public class TopicService {
   @DeleteMapping("/api/topic/{topicId}")
   public void deleteTopic(@PathVariable("topicId") int topicId)
   {
-    topicIdRepository.deleteById(topicId);
+    topicRepository.deleteById(topicId);
   }
 
 

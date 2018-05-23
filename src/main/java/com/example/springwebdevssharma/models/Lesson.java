@@ -1,6 +1,7 @@
 package com.example.springwebdevssharma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
