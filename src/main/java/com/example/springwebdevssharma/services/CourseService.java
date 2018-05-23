@@ -1,9 +1,7 @@
 package com.example.springwebdevssharma.services;
 
 import com.example.springwebdevssharma.models.Course;
-import com.example.springwebdevssharma.models.Module;
 import com.example.springwebdevssharma.repositories.CourseRepository;
-import com.example.springwebdevssharma.repositories.ModuleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,8 +20,6 @@ import java.util.Optional;
 public class CourseService {
   @Autowired
   CourseRepository courseRepository;
-  @Autowired
-  ModuleRepository moduleRepository;
 
   @GetMapping("/api/course")
   public Iterable<Course> findAllCourses() {
@@ -59,13 +54,6 @@ public class CourseService {
 
   @DeleteMapping("/api/course/{courseId}")
   public void deleteCourse(@PathVariable("courseId") int id) {
-    List<Module> moduleList = (List<Module>)moduleRepository.findAll();
-
-    for(Module module: moduleList)
-    {
-      if(module.getCourse().getId() == id)
-        moduleRepository.deleteById(module.getId());
-    }
     courseRepository.deleteById(id);
   }
 }

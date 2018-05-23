@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.CascadeType;
 
 @Entity
 public class Course {
@@ -21,7 +22,7 @@ public class Course {
   private Date created;
   @Temporal(TemporalType.TIMESTAMP)
   private Date modified;
-  @OneToMany(mappedBy="course")
+  @OneToMany(mappedBy="course",cascade = CascadeType.ALL, orphanRemoval=true)
   private List<Module> modules;
   public int getId() {
     return id;

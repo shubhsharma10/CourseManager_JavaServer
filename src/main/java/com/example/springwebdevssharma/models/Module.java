@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
 @Entity
 public class Module {
@@ -20,7 +21,7 @@ public class Module {
   @ManyToOne
   @JsonIgnore
   private Course course;
-  @OneToMany(mappedBy="module")
+  @OneToMany(mappedBy="module",cascade = CascadeType.ALL, orphanRemoval=true)
   private List<Lesson> lessons;
 
   public int getId() {

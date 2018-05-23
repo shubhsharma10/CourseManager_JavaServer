@@ -3,11 +3,9 @@ package com.example.springwebdevssharma.services;
 import com.example.springwebdevssharma.models.Course;
 import com.example.springwebdevssharma.models.Lesson;
 import com.example.springwebdevssharma.models.Module;
-import com.example.springwebdevssharma.models.Topic;
 import com.example.springwebdevssharma.repositories.CourseRepository;
 import com.example.springwebdevssharma.repositories.LessonRepository;
 import com.example.springwebdevssharma.repositories.ModuleRepository;
-import com.example.springwebdevssharma.repositories.TopicRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,9 +31,6 @@ public class LessonService {
   @Autowired
   LessonRepository lessonRepository;
 
-  @Autowired
-  TopicRepository topicRepository;
-
   @PostMapping("/api/course/{courseId}/module/{mid}/lesson")
   public Lesson createLesson(
           @PathVariable("courseId") int courseId,
@@ -59,13 +54,6 @@ public class LessonService {
   @DeleteMapping("/api/lesson/{lessonId}")
   public void deleteLesson(@PathVariable("lessonId") int lessonId)
   {
-    List<Topic> topicList = (List<Topic>)topicRepository.findAll();
-
-    for(Topic topic: topicList)
-    {
-      if(topic.getLesson().getId() == lessonId)
-        topicRepository.deleteById(topic.getId());
-    }
     lessonRepository.deleteById(lessonId);
   }
 
