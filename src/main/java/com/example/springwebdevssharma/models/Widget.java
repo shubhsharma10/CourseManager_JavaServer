@@ -11,7 +11,7 @@ public class Widget {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String text;
-
+  private String widgetType;
   public int getId() {
     return id;
   }
@@ -26,5 +26,13 @@ public class Widget {
 
   public void setText(String text) {
     this.text = text;
+  }
+
+  public String getWidgetType() {
+    return widgetType;
+  }
+
+  public void setWidgetType(String widgetType) {
+    this.widgetType = widgetType;
   }
 }
