@@ -1,7 +1,9 @@
 package com.example.springwebdevssharma.repositories;
 
-/**
- * Created by shubh on 25-05-2018.
- */
-public class WidgetRepository {
+import com.example.springwebdevssharma.models.Widget;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface WidgetRepository extends CrudRepository<Widget,Integer> {
+
 }

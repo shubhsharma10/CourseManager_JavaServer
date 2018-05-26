@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*")
 public class ModuleService {
   @Autowired
   CourseRepository courseRepository;
