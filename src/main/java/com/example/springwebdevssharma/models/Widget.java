@@ -9,9 +9,10 @@ import javax.persistence.Id;
 public class Widget {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private int id = 1;
   private String text;
   private String widgetType;
+  private String size;
   public int getId() {
     return id;
   }
@@ -34,5 +35,13 @@ public class Widget {
 
   public void setWidgetType(String widgetType) {
     this.widgetType = widgetType;
+  }
+
+  public String getSize() {
+    return size;
+  }
+
+  public void setSize(String size) {
+    this.size = size;
   }
 }
