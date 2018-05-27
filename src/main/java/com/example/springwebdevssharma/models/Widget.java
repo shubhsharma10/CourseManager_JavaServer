@@ -1,5 +1,7 @@
 package com.example.springwebdevssharma.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +27,10 @@ public abstract class Widget {
   private String style;
   private String width;
   private String height;
+
+  @ManyToOne
+  @JsonIgnore
+  private Topic topic;
 
   public int getId() {
     return id;
@@ -87,5 +94,13 @@ public abstract class Widget {
 
   public void setHeight(String height) {
     this.height = height;
+  }
+
+  public Topic getTopic() {
+    return topic;
+  }
+
+  public void setTopic(Topic topic) {
+    this.topic = topic;
   }
 }
