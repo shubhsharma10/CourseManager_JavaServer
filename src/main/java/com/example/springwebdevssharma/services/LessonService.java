@@ -57,6 +57,15 @@ public class LessonService {
     lessonRepository.deleteById(lessonId);
   }
 
+  @GetMapping("/api/lesson/{lid}")
+  public Lesson findCourseById(@PathVariable("lid") int lessonId) {
+    Optional<Lesson> data = lessonRepository.findById(lessonId);
+    if(data.isPresent()) {
+      return data.get();
+    }
+    return null;
+  }
+
   @GetMapping("/api/lesson")
   public List<Lesson> findAllLesson()
   {
