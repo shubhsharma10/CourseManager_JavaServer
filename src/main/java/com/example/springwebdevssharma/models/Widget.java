@@ -1,18 +1,30 @@
 package com.example.springwebdevssharma.models;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
 
 @Entity
-public class Widget {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="WidgetType")
+@Table(name="Widget")
+public abstract class Widget {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id = 1;
   private String text;
-  private String widgetType;
-  private String size;
+  private String name;
+  private int widgetOrder;
+  private String className;
+  private String style;
+  private String width;
+  private String height;
+
   public int getId() {
     return id;
   }
@@ -29,19 +41,51 @@ public class Widget {
     this.text = text;
   }
 
-  public String getWidgetType() {
-    return widgetType;
+  public String getName() {
+    return name;
   }
 
-  public void setWidgetType(String widgetType) {
-    this.widgetType = widgetType;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public String getSize() {
-    return size;
+  public int getWidgetOrder() {
+    return widgetOrder;
   }
 
-  public void setSize(String size) {
-    this.size = size;
+  public void setWidgetOrder(int order) {
+    this.widgetOrder = widgetOrder;
+  }
+
+  public String getClassName() {
+    return className;
+  }
+
+  public void setClassName(String className) {
+    this.className = className;
+  }
+
+  public String getStyle() {
+    return style;
+  }
+
+  public void setStyle(String style) {
+    this.style = style;
+  }
+
+  public String getWidth() {
+    return width;
+  }
+
+  public void setWidth(String width) {
+    this.width = width;
+  }
+
+  public String getHeight() {
+    return height;
+  }
+
+  public void setHeight(String height) {
+    this.height = height;
   }
 }
