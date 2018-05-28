@@ -61,6 +61,23 @@ public class WidgetService {
     return null;
   }
 
+  @PostMapping("/api/topic/{tid}/widget/save")
+  public void saveWidgetsForTopic(@PathVariable("tid") int topicId, @RequestBody List<Widget> widgets) {
+    Optional<Topic> data = topicRepository.findById(topicId);
+    if(data.isPresent()) {
+      Topic topic = data.get();
+      for(Widget widget: topic.getWidgets())
+      {
+        widgetRepository.deleteById(widget.getId());
+      }
+      for(Widget widget: widgets)
+      {
+        widget.setTopic(topic);
+        widgetRepository.save(widget);
+      }
+    }
+  }
+
   @PutMapping("/api/widget/{wid}")
   public Widget updateWidget(@PathVariable("wid") int widgetId, @RequestBody Widget newWidget) {
     Optional<Widget> data = widgetRepository.findById(widgetId);
