@@ -69,9 +69,16 @@ public class WidgetService {
       for(Widget widget: topic.getWidgets())
       {
         int widgetId = widget.getId();
-        System.out.println(":::::            ::::going to delete");
-        widgetRepository.deleteById(widgetId);
-        System.out.println(":::::            ::::deleted");
+        Optional<Widget> wd = widgetRepository.findById(widgetId);
+        if( wd.isPresent())
+        {
+          Widget w = wd.get();
+          System.out.println(":::::            ::::going to delete "+widgetId);
+          widgetRepository.deleteById(w.getId());
+          widgetRepository.delete(w);
+          System.out.println(":::::            ::::deleted");
+        }
+
       }
       for(Widget widget: widgets)
       {
