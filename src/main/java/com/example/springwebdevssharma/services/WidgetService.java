@@ -66,20 +66,16 @@ public class WidgetService {
     Optional<Topic> data = topicRepository.findById(topicId);
     if(data.isPresent()) {
       Topic topic = data.get();
-      for(Widget widget: topic.getWidgets())
+      List<Widget> widgetList = topic.getWidgets();
+      // First remove the parent entity connection
+      for(Widget widget: widgetList)
       {
-        int widgetId = widget.getId();
-        Optional<Widget> wd = widgetRepository.findById(widgetId);
-        if( wd.isPresent())
-        {
-          Widget w = wd.get();
-          System.out.println(":::::            ::::going to delete "+widgetId);
-          widgetRepository.deleteById(w.getId());
-          widgetRepository.delete(w);
-          System.out.println(":::::            ::::deleted");
-        }
-
+        widget.setTopic(null);
       }
+      // Now remove existing children
+      topic.getWidgets().clear();
+
+      // Add new widgets
       for(Widget widget: widgets)
       {
         widget.setTopic(topic);
