@@ -61,6 +61,15 @@ public class WidgetService {
     return null;
   }
 
+  private boolean containsId(List<Widget> list, Integer id) {
+    for (Widget object : list) {
+      if (object.getId() == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @PostMapping("/api/topic/{tid}/widget/save")
   public void saveWidgetsForTopic(@PathVariable("tid") int topicId, @RequestBody List<Widget> widgets) {
     Optional<Topic> data = topicRepository.findById(topicId);
@@ -72,8 +81,6 @@ public class WidgetService {
       {
         widget.setTopic(null);
       }
-      // Now remove existing children
-      topic.getWidgets().clear();
 
       // Add new widgets
       for(Widget widget: widgets)
