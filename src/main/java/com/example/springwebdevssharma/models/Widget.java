@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+enum ListType {
+  Ordered, Unordered
+}
+
 @Entity
 public class Widget {
   @Id
@@ -24,6 +28,8 @@ public class Widget {
   private int size;
   private String src;
   private String href;
+  private String listItems;
+  private ListType listType = ListType.Unordered;
 
   @ManyToOne
   @JsonIgnore
@@ -130,5 +136,21 @@ public class Widget {
 
   public void setHref(String href) {
     this.href = href;
+  }
+
+  public String getListItems() {
+    return listItems;
+  }
+
+  public void setListItems(String listItems) {
+    this.listItems = listItems;
+  }
+
+  public ListType getListType() {
+    return listType;
+  }
+
+  public void setListType(ListType listType) {
+    this.listType = listType;
   }
 }
