@@ -6,6 +6,7 @@ import com.example.springwebdevssharma.repositories.TopicRepository;
 import com.example.springwebdevssharma.repositories.WidgetRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Transactional
 @CrossOrigin(origins = "*")
 public class WidgetService {
   @Autowired
   TopicRepository topicRepository;
   @Autowired
   WidgetRepository widgetRepository;
+
 
   @GetMapping("/api/widget")
   public List<Widget> findAllWidgets() {
@@ -76,15 +79,16 @@ public class WidgetService {
     if(data.isPresent()) {
       Topic topic = data.get();
       List<Widget> widgetList = topic.getWidgets();
-      // First remove the parent entity connection
+       //First remove the parent entity connection
       for(Widget widget: widgetList)
       {
-        widget.setTopic(null);
+          Integer widgetId = widget.getId();
+          if(!containsId(widgets,widgetId))
+            widgetRepository.customDelete(widget.getId());
       }
 
       // Add new widgets
-      for(Widget widget: widgets)
-      {
+      for (Widget widget : widgets) {
         widget.setTopic(topic);
         widgetRepository.save(widget);
       }
@@ -96,6 +100,7 @@ public class WidgetService {
     Optional<Widget> data = widgetRepository.findById(widgetId);
     if(data.isPresent()) {
       Widget widget = data.get();
+      // TODO : Update all props
       return widgetRepository.save(widget);
     }
     return null;
