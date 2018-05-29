@@ -100,7 +100,20 @@ public class WidgetService {
     Optional<Widget> data = widgetRepository.findById(widgetId);
     if(data.isPresent()) {
       Widget widget = data.get();
-      // TODO : Update all props
+      widget.setTopic(newWidget.getTopic());
+      widget.setClassName(newWidget.getClassName());
+      widget.setHeight(newWidget.getHeight());
+      widget.setHref(newWidget.getHref());
+      widget.setListItems(newWidget.getListItems());
+      widget.setListType(newWidget.getListType());
+      widget.setName(newWidget.getName());
+      widget.setSize(newWidget.getSize());
+      widget.setSrc(newWidget.getSrc());
+      widget.setStyle(newWidget.getStyle());
+      widget.setText(newWidget.getText());
+      widget.setWidgetOrder(newWidget.getWidgetOrder());
+      widget.setWidgetType(newWidget.getWidgetType());
+      widget.setWidth(newWidget.getWidth());
       return widgetRepository.save(widget);
     }
     return null;
