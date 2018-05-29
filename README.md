@@ -8,7 +8,7 @@
 - Password validation
 
 ## Assignment 2 extra credit
-- Topics 
+- Faculty can create topics for each lesson
 
 ## Hosted on
 - https://cs5610-summer1-2018-ssharma.herokuapp.com/
