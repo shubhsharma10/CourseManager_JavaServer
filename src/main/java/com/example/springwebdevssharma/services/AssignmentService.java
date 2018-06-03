@@ -7,9 +7,11 @@ import com.example.springwebdevssharma.repositories.TopicRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,5 +44,23 @@ public class AssignmentService {
       return data.get();
     }
     return null;
+  }
+
+  @PutMapping("/api/assignment/{aid}")
+  public Assignment updateAssignment(@PathVariable("aid") int aid, @RequestBody Assignment newAssignment) {
+    Optional<Assignment> data = assignmentRepository.findById(aid);
+    if(data.isPresent()) {
+      Assignment assignment = data.get();
+      assignment.setDescription(newAssignment.getDescription());
+      assignment.setTitle(newAssignment.getTitle());
+      assignment.setPoints(newAssignment.getPoints());
+      return assignmentRepository.save(assignment);
+    }
+    return null;
+  }
+
+  @DeleteMapping("/api/assignment/{aid}")
+  public void deleteAssignment(@PathVariable("aid") int widgetId) {
+    assignmentRepository.deleteById(widgetId);
   }
 }
