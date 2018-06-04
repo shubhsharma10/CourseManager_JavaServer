@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 @Entity
 public class TrueFalseQuestion extends Question {
   private boolean isTrue;
-  public boolean isTrue() {
+  public boolean getTrue() {
     return isTrue;
   }
   public void setTrue(boolean isTrue) {

@@ -88,6 +88,20 @@ public class ExamService {
     return null;
   }
 
+  @PutMapping("/api/truefalse/{qid}")
+  public TrueFalseQuestion updateTrueFalseQuestion(@PathVariable("qid") int qid, @RequestBody TrueFalseQuestion newQuestion) {
+    Optional<TrueFalseQuestion> data = trueFalseQuestionRepository.findById(qid);
+    if(data.isPresent()) {
+      TrueFalseQuestion question = data.get();
+      question.setTitle(newQuestion.getTitle());
+      question.setSubtitle(newQuestion.getSubtitle());
+      question.setPoints(newQuestion.getPoints());
+      question.setTrue(newQuestion.getTrue());
+      return trueFalseQuestionRepository.save(question);
+    }
+    return null;
+  }
+
   @DeleteMapping("/api/truefalse/{qid}")
   public void deleteTrueFalseQuestion(@PathVariable("qid") int questionId) {
     trueFalseQuestionRepository.deleteById(questionId);
