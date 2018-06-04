@@ -2,12 +2,14 @@ package com.example.springwebdevssharma.services;
 
 import com.example.springwebdevssharma.models.EssayQuestion;
 import com.example.springwebdevssharma.models.Exam;
+import com.example.springwebdevssharma.models.FillInTheBlanksQuestion;
 import com.example.springwebdevssharma.models.MultipleChoiceQuestion;
 import com.example.springwebdevssharma.models.Question;
 import com.example.springwebdevssharma.models.Topic;
 import com.example.springwebdevssharma.models.TrueFalseQuestion;
 import com.example.springwebdevssharma.repositories.EssayQuestionRepository;
 import com.example.springwebdevssharma.repositories.ExamRepository;
+import com.example.springwebdevssharma.repositories.FillInTheBlanksQuestionRepository;
 import com.example.springwebdevssharma.repositories.MultipleChoiceQuestionRepository;
 import com.example.springwebdevssharma.repositories.TopicRepository;
 import com.example.springwebdevssharma.repositories.TrueFalseQuestionRepository;
@@ -43,6 +45,9 @@ public class ExamService {
 
   @Autowired
   MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
+
+  @Autowired
+  FillInTheBlanksQuestionRepository fillInTheBlanksQuestionRepository;
 
   @PostMapping("/api/topic/{tid}/exam")
   public Exam createExam(@PathVariable("tid") int topicId, @RequestBody Exam newExam) {
@@ -214,6 +219,49 @@ public class ExamService {
     return null;
   }
 
+  ///////////////////////////////////
+  /// Fill in the blanks Question methods
+  ///////////////////////////////////
+
+  @PostMapping("/api/exam/{eid}/blanks")
+  public FillInTheBlanksQuestion createBlanksQuestion(@PathVariable("eid") int examId, @RequestBody FillInTheBlanksQuestion newQuestion) {
+    Optional<Exam> data = examRepository.findById(examId);
+    if(data.isPresent()) {
+      Exam examWidget = data.get();
+      newQuestion.setExam(examWidget);
+      return fillInTheBlanksQuestionRepository.save(newQuestion);
+    }
+    return null;
+  }
+
+  @PutMapping("/api/blanks/{qid}")
+  public FillInTheBlanksQuestion updateBlanksQuestion(@PathVariable("qid") int qid, @RequestBody FillInTheBlanksQuestion newQuestion) {
+    Optional<FillInTheBlanksQuestion> data = fillInTheBlanksQuestionRepository.findById(qid);
+    if(data.isPresent()) {
+      FillInTheBlanksQuestion question = data.get();
+      question.setTitle(newQuestion.getTitle());
+      question.setSubtitle(newQuestion.getSubtitle());
+      question.setPoints(newQuestion.getPoints());
+      question.setParameters(newQuestion.getParameters());
+      question.setExam(newQuestion.setValues(););
+      return fillInTheBlanksQuestionRepository.save(question);
+    }
+    return null;
+  }
+
+  @DeleteMapping("/api/blanks/{qid}")
+  public void deleteBlanksQuestion(@PathVariable("qid") int questionId) {
+    fillInTheBlanksQuestionRepository.deleteById(questionId);
+  }
+
+  @GetMapping("/api/blanks/{questionId}")
+  public FillInTheBlanksQuestion findBlanksQuestionById(@PathVariable("questionId") int questionId) {
+    Optional<FillInTheBlanksQuestion> optional = fillInTheBlanksQuestionRepository.findById(questionId);
+    if(optional.isPresent()) {
+      return optional.get();
+    }
+    return null;
+  }
 
   /////////////////////////////////////////
 
