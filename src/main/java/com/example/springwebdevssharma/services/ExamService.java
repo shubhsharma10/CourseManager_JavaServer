@@ -1,10 +1,12 @@
 package com.example.springwebdevssharma.services;
 
+import com.example.springwebdevssharma.models.EssayQuestion;
 import com.example.springwebdevssharma.models.Exam;
 import com.example.springwebdevssharma.models.MultipleChoiceQuestion;
 import com.example.springwebdevssharma.models.Question;
 import com.example.springwebdevssharma.models.Topic;
 import com.example.springwebdevssharma.models.TrueFalseQuestion;
+import com.example.springwebdevssharma.repositories.EssayQuestionRepository;
 import com.example.springwebdevssharma.repositories.ExamRepository;
 import com.example.springwebdevssharma.repositories.MultipleChoiceQuestionRepository;
 import com.example.springwebdevssharma.repositories.TopicRepository;
@@ -35,6 +37,9 @@ public class ExamService {
 
   @Autowired
   TrueFalseQuestionRepository trueFalseQuestionRepository;
+
+  @Autowired
+  EssayQuestionRepository essayQuestionRepository;
 
   @Autowired
   MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
@@ -77,6 +82,10 @@ public class ExamService {
     return null;
   }
 
+  /////////////////////
+  // True False Question functions
+  ////////////////////
+
   @PostMapping("/api/exam/{eid}/truefalse")
   public TrueFalseQuestion createTrueFalseQuestion(@PathVariable("eid") int examId, @RequestBody TrueFalseQuestion newQuestion) {
     Optional<Exam> data = examRepository.findById(examId);
@@ -107,6 +116,65 @@ public class ExamService {
     trueFalseQuestionRepository.deleteById(questionId);
   }
 
+  @GetMapping("/api/truefalse/{questionId}")
+  public TrueFalseQuestion findTrueFalseQuestionById(@PathVariable("questionId") int questionId) {
+    Optional<TrueFalseQuestion> optional = trueFalseQuestionRepository.findById(questionId);
+    if(optional.isPresent()) {
+      return optional.get();
+    }
+    return null;
+  }
+
+
+
+
+  /////////////////////
+  // Essay Question functions
+  ////////////////////
+
+  @PostMapping("/api/exam/{eid}/essay")
+  public EssayQuestion createEssayQuestion(@PathVariable("eid") int examId, @RequestBody EssayQuestion newQuestion) {
+    Optional<Exam> data = examRepository.findById(examId);
+    if(data.isPresent()) {
+      Exam examWidget = data.get();
+      newQuestion.setExam(examWidget);
+      return essayQuestionRepository.save(newQuestion);
+    }
+    return null;
+  }
+
+  @PutMapping("/api/essay/{qid}")
+  public EssayQuestion updateEssayQuestion(@PathVariable("qid") int qid, @RequestBody EssayQuestion newQuestion) {
+    Optional<EssayQuestion> data = essayQuestionRepository.findById(qid);
+    if(data.isPresent()) {
+      EssayQuestion question = data.get();
+      question.setTitle(newQuestion.getTitle());
+      question.setSubtitle(newQuestion.getSubtitle());
+      question.setPoints(newQuestion.getPoints());
+      return essayQuestionRepository.save(question);
+    }
+    return null;
+  }
+
+  @DeleteMapping("/api/essay/{qid}")
+  public void deleteEssayQuestion(@PathVariable("qid") int questionId) {
+    essayQuestionRepository.deleteById(questionId);
+  }
+
+  @GetMapping("/api/essay/{questionId}")
+  public EssayQuestion findEssayQuestionById(@PathVariable("questionId") int questionId) {
+    Optional<EssayQuestion> optional = essayQuestionRepository.findById(questionId);
+    if(optional.isPresent()) {
+      return optional.get();
+    }
+    return null;
+  }
+
+
+  /////////////////////////////////////////
+
+
+
   @GetMapping("/api/exam")
   public List<Exam> FindAllExams() {
     return (List<Exam>)examRepository.findAll();
@@ -135,15 +203,6 @@ public class ExamService {
   @GetMapping("/api/multi/{questionId}")
   public MultipleChoiceQuestion findMultiQuestionById(@PathVariable("questionId") int questionId) {
     Optional<MultipleChoiceQuestion> optional = multipleChoiceQuestionRepository.findById(questionId);
-    if(optional.isPresent()) {
-      return optional.get();
-    }
-    return null;
-  }
-
-  @GetMapping("/api/truefalse/{questionId}")
-  public TrueFalseQuestion findTrueFalseQuestionById(@PathVariable("questionId") int questionId) {
-    Optional<TrueFalseQuestion> optional = trueFalseQuestionRepository.findById(questionId);
     if(optional.isPresent()) {
       return optional.get();
     }
