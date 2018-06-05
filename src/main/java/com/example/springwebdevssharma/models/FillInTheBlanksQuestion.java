@@ -9,23 +9,14 @@ import javax.persistence.Entity;
 public class FillInTheBlanksQuestion extends Question{
 
   @ElementCollection
-  private List<String> parameters;
-  @ElementCollection
-  private List<Integer> values;
+  private List<String> paramValues;
 
-  public List<String> getParameters() {
-    return parameters;
+  public List<String> getParamValues() {
+    return paramValues;
   }
 
-  public void setParameters(List<String> parameters) {
-    this.parameters = parameters;
+  public void setParamValues(List<String> paramValues) {
+    this.paramValues = paramValues;
   }
 
-  public List<Integer> getValues() {
-    return values;
-  }
-
-  public void setValues(List<Integer> values) {
-    this.values = values;
-  }
 }

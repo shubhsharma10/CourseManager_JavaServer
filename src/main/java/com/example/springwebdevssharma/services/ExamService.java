@@ -242,8 +242,7 @@ public class ExamService {
       question.setTitle(newQuestion.getTitle());
       question.setSubtitle(newQuestion.getSubtitle());
       question.setPoints(newQuestion.getPoints());
-      question.setParameters(newQuestion.getParameters());
-      question.setValues(newQuestion.getValues());
+      question.setParamValues(newQuestion.getParamValues());
       return fillInTheBlanksQuestionRepository.save(question);
     }
     return null;
