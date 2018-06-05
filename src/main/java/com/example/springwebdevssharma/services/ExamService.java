@@ -49,46 +49,9 @@ public class ExamService {
   @Autowired
   FillInTheBlanksQuestionRepository fillInTheBlanksQuestionRepository;
 
-  @PostMapping("/api/topic/{tid}/exam")
-  public Exam createExam(@PathVariable("tid") int topicId, @RequestBody Exam newExam) {
-    Optional<Topic> data = topicRepository.findById(topicId);
-    if(data.isPresent()) {
-      Topic topic = data.get();
-      newExam.setTopic(topic);
-      return examRepository.save(newExam);
-    }
-    return null;
-  }
-
-  @PutMapping("/api/exam/{eid}")
-  public Exam updateExam(@PathVariable("eid") int eid, @RequestBody Exam newExam) {
-    Optional<Exam> data = examRepository.findById(eid);
-    if(data.isPresent()) {
-      Exam exam = data.get();
-      exam.setTitle(newExam.getTitle());
-      return examRepository.save(exam);
-    }
-    return null;
-  }
-
-  @DeleteMapping("/api/exam/{eid}")
-  public void deleteExam(@PathVariable("eid") int widgetId) {
-    examRepository.deleteById(widgetId);
-  }
-
-  @GetMapping("/api/exam/{examId}/question")
-  public List<Question> findAllQuestionsForExam(@PathVariable("examId") int examId) {
-    Optional<Exam> optionalExam = examRepository.findById(examId);
-    if(optionalExam.isPresent()) {
-      Exam exam = optionalExam.get();
-      List<Question> questions = exam.getQuestions();
-      return questions;
-    }
-    return null;
-  }
 
   /////////////////////
-  // True False Question functions
+  // True False Question REST API functions
   ////////////////////
 
   @PostMapping("/api/exam/{eid}/truefalse")
@@ -134,7 +97,7 @@ public class ExamService {
 
 
   /////////////////////
-  // Essay Question functions
+  // Essay Question REST API functions
   ////////////////////
 
   @PostMapping("/api/exam/{eid}/essay")
@@ -176,7 +139,7 @@ public class ExamService {
   }
 
   ///////////////////////////////////
-  /// Multiple choice Question methods
+  /// Multiple choice Question REST API methods
   ///////////////////////////////////
 
   @PostMapping("/api/exam/{eid}/choice")
@@ -220,7 +183,7 @@ public class ExamService {
   }
 
   ///////////////////////////////////
-  /// Fill in the blanks Question methods
+  /// Fill in the blanks Question REST API methods
   ///////////////////////////////////
 
   @PostMapping("/api/exam/{eid}/blanks")
@@ -242,7 +205,7 @@ public class ExamService {
       question.setTitle(newQuestion.getTitle());
       question.setSubtitle(newQuestion.getSubtitle());
       question.setPoints(newQuestion.getPoints());
-      question.setParamValues(newQuestion.getParamValues());
+      question.setInputArea(newQuestion.getInputArea());
       return fillInTheBlanksQuestionRepository.save(question);
     }
     return null;
@@ -263,9 +226,47 @@ public class ExamService {
   }
 
   /////////////////////////////////////////
+  /// Exam REST API methods
+  ////////////////////////////////////////
 
+  @PostMapping("/api/topic/{tid}/exam")
+  public Exam createExam(@PathVariable("tid") int topicId, @RequestBody Exam newExam) {
+    Optional<Topic> data = topicRepository.findById(topicId);
+    if(data.isPresent()) {
+      Topic topic = data.get();
+      newExam.setTopic(topic);
+      return examRepository.save(newExam);
+    }
+    return null;
+  }
 
+  @PutMapping("/api/exam/{eid}")
+  public Exam updateExam(@PathVariable("eid") int eid, @RequestBody Exam newExam) {
+    Optional<Exam> data = examRepository.findById(eid);
+    if(data.isPresent()) {
+      Exam exam = data.get();
+      exam.setTitle(newExam.getTitle());
+      return examRepository.save(exam);
+    }
+    return null;
+  }
 
+  @DeleteMapping("/api/exam/{eid}")
+  public void deleteExam(@PathVariable("eid") int widgetId) {
+    examRepository.deleteById(widgetId);
+  }
+
+  @GetMapping("/api/exam/{examId}/question")
+  public List<Question> findAllQuestionsForExam(@PathVariable("examId") int examId) {
+    Optional<Exam> optionalExam = examRepository.findById(examId);
+    if(optionalExam.isPresent()) {
+      Exam exam = optionalExam.get();
+      List<Question> questions = exam.getQuestions();
+      return questions;
+    }
+    return null;
+  }
+  
   @GetMapping("/api/exam")
   public List<Exam> FindAllExams() {
     return (List<Exam>)examRepository.findAll();
@@ -289,14 +290,5 @@ public class ExamService {
       Topic topic = topicData.get();
       System.out.println(topic.getWidgets());
     }
-  }
-
-  @GetMapping("/api/multi/{questionId}")
-  public MultipleChoiceQuestion findMultiQuestionById(@PathVariable("questionId") int questionId) {
-    Optional<MultipleChoiceQuestion> optional = multipleChoiceQuestionRepository.findById(questionId);
-    if(optional.isPresent()) {
-      return optional.get();
-    }
-    return null;
   }
 }
