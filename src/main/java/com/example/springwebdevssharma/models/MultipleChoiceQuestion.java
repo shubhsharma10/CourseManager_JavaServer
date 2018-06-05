@@ -1,21 +1,25 @@
 package com.example.springwebdevssharma.models;
 
+import java.util.List;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 
 @Entity
 public class MultipleChoiceQuestion extends Question {
-  private String options;
-  private int correctOption;
-  public String getOptions() {
+  @ElementCollection
+  private List<String> options;
+  private String correctOption;
+  public List<String> getOptions() {
     return options;
   }
-  public void setOptions(String options) {
+  public void setOptions(List<String> options) {
     this.options = options;
   }
-  public int getCorrectOption() {
+  public String getCorrectOption() {
     return correctOption;
   }
-  public void setCorrectOption(int correctOption) {
+  public void setCorrectOption(String correctOption) {
     this.correctOption = correctOption;
   }
 }
