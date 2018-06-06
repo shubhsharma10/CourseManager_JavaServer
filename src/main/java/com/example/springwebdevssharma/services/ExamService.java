@@ -1,18 +1,10 @@
 package com.example.springwebdevssharma.services;
 
-import com.example.springwebdevssharma.models.EssayQuestion;
 import com.example.springwebdevssharma.models.Exam;
-import com.example.springwebdevssharma.models.FillInTheBlanksQuestion;
-import com.example.springwebdevssharma.models.MultipleChoiceQuestion;
 import com.example.springwebdevssharma.models.Question;
 import com.example.springwebdevssharma.models.Topic;
-import com.example.springwebdevssharma.models.TrueFalseQuestion;
-import com.example.springwebdevssharma.repositories.EssayQuestionRepository;
 import com.example.springwebdevssharma.repositories.ExamRepository;
-import com.example.springwebdevssharma.repositories.FillInTheBlanksQuestionRepository;
-import com.example.springwebdevssharma.repositories.MultipleChoiceQuestionRepository;
 import com.example.springwebdevssharma.repositories.TopicRepository;
-import com.example.springwebdevssharma.repositories.TrueFalseQuestionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,198 +28,6 @@ public class ExamService {
 
   @Autowired
   TopicRepository topicRepository;
-
-  @Autowired
-  TrueFalseQuestionRepository trueFalseQuestionRepository;
-
-  @Autowired
-  EssayQuestionRepository essayQuestionRepository;
-
-  @Autowired
-  MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
-
-  @Autowired
-  FillInTheBlanksQuestionRepository fillInTheBlanksQuestionRepository;
-
-
-  /////////////////////
-  // True False Question REST API functions
-  ////////////////////
-
-  @PostMapping("/api/exam/{eid}/truefalse")
-  public TrueFalseQuestion createTrueFalseQuestion(@PathVariable("eid") int examId, @RequestBody TrueFalseQuestion newQuestion) {
-    Optional<Exam> data = examRepository.findById(examId);
-    if(data.isPresent()) {
-      Exam examWidget = data.get();
-      newQuestion.setExam(examWidget);
-      return trueFalseQuestionRepository.save(newQuestion);
-    }
-    return null;
-  }
-
-  @PutMapping("/api/truefalse/{qid}")
-  public TrueFalseQuestion updateTrueFalseQuestion(@PathVariable("qid") int qid, @RequestBody TrueFalseQuestion newQuestion) {
-    Optional<TrueFalseQuestion> data = trueFalseQuestionRepository.findById(qid);
-    if(data.isPresent()) {
-      TrueFalseQuestion question = data.get();
-      question.setTitle(newQuestion.getTitle());
-      question.setSubtitle(newQuestion.getSubtitle());
-      question.setPoints(newQuestion.getPoints());
-      question.setTrue(newQuestion.getTrue());
-      return trueFalseQuestionRepository.save(question);
-    }
-    return null;
-  }
-
-  @DeleteMapping("/api/truefalse/{qid}")
-  public void deleteTrueFalseQuestion(@PathVariable("qid") int questionId) {
-    trueFalseQuestionRepository.deleteById(questionId);
-  }
-
-  @GetMapping("/api/truefalse/{questionId}")
-  public TrueFalseQuestion findTrueFalseQuestionById(@PathVariable("questionId") int questionId) {
-    Optional<TrueFalseQuestion> optional = trueFalseQuestionRepository.findById(questionId);
-    if(optional.isPresent()) {
-      return optional.get();
-    }
-    return null;
-  }
-
-
-
-
-  /////////////////////
-  // Essay Question REST API functions
-  ////////////////////
-
-  @PostMapping("/api/exam/{eid}/essay")
-  public EssayQuestion createEssayQuestion(@PathVariable("eid") int examId, @RequestBody EssayQuestion newQuestion) {
-    Optional<Exam> data = examRepository.findById(examId);
-    if(data.isPresent()) {
-      Exam examWidget = data.get();
-      newQuestion.setExam(examWidget);
-      return essayQuestionRepository.save(newQuestion);
-    }
-    return null;
-  }
-
-  @PutMapping("/api/essay/{qid}")
-  public EssayQuestion updateEssayQuestion(@PathVariable("qid") int qid, @RequestBody EssayQuestion newQuestion) {
-    Optional<EssayQuestion> data = essayQuestionRepository.findById(qid);
-    if(data.isPresent()) {
-      EssayQuestion question = data.get();
-      question.setTitle(newQuestion.getTitle());
-      question.setSubtitle(newQuestion.getSubtitle());
-      question.setPoints(newQuestion.getPoints());
-      return essayQuestionRepository.save(question);
-    }
-    return null;
-  }
-
-  @DeleteMapping("/api/essay/{qid}")
-  public void deleteEssayQuestion(@PathVariable("qid") int questionId) {
-    essayQuestionRepository.deleteById(questionId);
-  }
-
-  @GetMapping("/api/essay/{questionId}")
-  public EssayQuestion findEssayQuestionById(@PathVariable("questionId") int questionId) {
-    Optional<EssayQuestion> optional = essayQuestionRepository.findById(questionId);
-    if(optional.isPresent()) {
-      return optional.get();
-    }
-    return null;
-  }
-
-  ///////////////////////////////////
-  /// Multiple choice Question REST API methods
-  ///////////////////////////////////
-
-  @PostMapping("/api/exam/{eid}/choice")
-  public MultipleChoiceQuestion createMultipleChoiceQuestion(@PathVariable("eid") int examId, @RequestBody MultipleChoiceQuestion newQuestion) {
-    Optional<Exam> data = examRepository.findById(examId);
-    if(data.isPresent()) {
-      Exam examWidget = data.get();
-      newQuestion.setExam(examWidget);
-      return multipleChoiceQuestionRepository.save(newQuestion);
-    }
-    return null;
-  }
-
-  @PutMapping("/api/choice/{qid}")
-  public MultipleChoiceQuestion updateMultipleChoiceQuestion(@PathVariable("qid") int qid, @RequestBody MultipleChoiceQuestion newQuestion) {
-    Optional<MultipleChoiceQuestion> data = multipleChoiceQuestionRepository.findById(qid);
-    if(data.isPresent()) {
-      MultipleChoiceQuestion question = data.get();
-      question.setTitle(newQuestion.getTitle());
-      question.setSubtitle(newQuestion.getSubtitle());
-      question.setPoints(newQuestion.getPoints());
-      question.setCorrectOption(newQuestion.getCorrectOption());
-      question.setOptions(newQuestion.getOptions());
-      return multipleChoiceQuestionRepository.save(question);
-    }
-    return null;
-  }
-
-  @DeleteMapping("/api/choice/{qid}")
-  public void deleteMultipleChoiceQuestion(@PathVariable("qid") int questionId) {
-    multipleChoiceQuestionRepository.deleteById(questionId);
-  }
-
-  @GetMapping("/api/choice/{questionId}")
-  public MultipleChoiceQuestion findMultipleChoiceQuestionById(@PathVariable("questionId") int questionId) {
-    Optional<MultipleChoiceQuestion> optional = multipleChoiceQuestionRepository.findById(questionId);
-    if(optional.isPresent()) {
-      return optional.get();
-    }
-    return null;
-  }
-
-  ///////////////////////////////////
-  /// Fill in the blanks Question REST API methods
-  ///////////////////////////////////
-
-  @PostMapping("/api/exam/{eid}/blanks")
-  public FillInTheBlanksQuestion createBlanksQuestion(@PathVariable("eid") int examId, @RequestBody FillInTheBlanksQuestion newQuestion) {
-    Optional<Exam> data = examRepository.findById(examId);
-    if(data.isPresent()) {
-      Exam examWidget = data.get();
-      newQuestion.setExam(examWidget);
-      return fillInTheBlanksQuestionRepository.save(newQuestion);
-    }
-    return null;
-  }
-
-  @PutMapping("/api/blanks/{qid}")
-  public FillInTheBlanksQuestion updateBlanksQuestion(@PathVariable("qid") int qid, @RequestBody FillInTheBlanksQuestion newQuestion) {
-    Optional<FillInTheBlanksQuestion> data = fillInTheBlanksQuestionRepository.findById(qid);
-    if(data.isPresent()) {
-      FillInTheBlanksQuestion question = data.get();
-      question.setTitle(newQuestion.getTitle());
-      question.setSubtitle(newQuestion.getSubtitle());
-      question.setPoints(newQuestion.getPoints());
-      question.setInputArea(newQuestion.getInputArea());
-      return fillInTheBlanksQuestionRepository.save(question);
-    }
-    return null;
-  }
-
-  @DeleteMapping("/api/blanks/{qid}")
-  public void deleteBlanksQuestion(@PathVariable("qid") int questionId) {
-    fillInTheBlanksQuestionRepository.deleteById(questionId);
-  }
-
-  @GetMapping("/api/blanks/{questionId}")
-  public FillInTheBlanksQuestion findBlanksQuestionById(@PathVariable("questionId") int questionId) {
-    Optional<FillInTheBlanksQuestion> optional = fillInTheBlanksQuestionRepository.findById(questionId);
-    if(optional.isPresent()) {
-      return optional.get();
-    }
-    return null;
-  }
-
-  /////////////////////////////////////////
-  /// Exam REST API methods
-  ////////////////////////////////////////
 
   @PostMapping("/api/topic/{tid}/exam")
   public Exam createExam(@PathVariable("tid") int topicId, @RequestBody Exam newExam) {
@@ -266,7 +66,7 @@ public class ExamService {
     }
     return null;
   }
-  
+
   @GetMapping("/api/exam")
   public List<Exam> FindAllExams() {
     return (List<Exam>)examRepository.findAll();
