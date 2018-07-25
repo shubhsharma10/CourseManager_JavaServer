@@ -1,5 +1,4 @@
-# cs5610-summer1-2018-java-server-ssharma
-# Shubham Sharma
+# Springboot Java server for Course Manager, where course, lesson, topic, widgets are stored
 
 ## React front end repo (Faculty)
 - https://github.com/shubhsharma10/cs5610-summer1-2018-react-ssharma
@@ -9,15 +8,6 @@
 
 ## Angular Front end repo (Students)
 - https://github.com/shubhsharma10/cs5610-summer1-angular-ssharma
-
-## Assignment 1 extra credit
-- Password validation
-
-## Assignment 2 extra credit
-- Faculty can create topics for each lesson
-
-## Assignment 3 extra credit
-- Enforcing unqiue widget name constraint for widgets in topic(As instructed by Professor)
 
 ## Hosted on
 - https://cs5610-summer1-2018-ssharma.herokuapp.com/
