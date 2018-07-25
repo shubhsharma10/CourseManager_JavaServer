@@ -1,4 +1,4 @@
-# Springboot Java server for Course Manager, where course, lesson, topic, widgets are stored
+# Springboot Java server for Course Manager, where course, lesson, topic, widgets are stored in MySQL database
 
 ## React front end repo (Faculty)
 - https://github.com/shubhsharma10/cs5610-summer1-2018-react-ssharma
